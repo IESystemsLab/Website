@@ -1,0 +1,184 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+%% LICENSE:  3-clause "Revised" or "New" or "Modified" BSD License
+% Copyright (c) 2015, Georgia Institute of Technology.
+% All rights reserved.
+% 
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are met:
+%     * Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%     * Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in the
+%       documentation and/or other materials provided with the distribution.
+%     * Neither the name of the Georgia Institute of Technology nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+% 
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+% ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+% WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+% DISCLAIMED. IN NO EVENT SHALL THE GEORGIA INSTITUTE OF TECHNOLOGY BE LIABLE FOR 
+% ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+% (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+% LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+% ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+% (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<html lang="en">
+
+<head>
+    <title>IE Systems Lab</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="industrial engineering, systems engineering, industrial and systems engineering,
+          manufacturing, supply chain, warehouse, distribution, transportation, logistics, healthcare,
+          engineering analysis, discrete-event simulation, statistics, optimization, factory physics">
+    <!--DESCRIPTION:  http://en.wikipedia.org/wiki/Meta_element viewed 03feb2015 says "W3C doesn't specify the size of this
+        description meta tag, but almost all search engines recommend it to be shorter than 155 characters of plain text." -->
+    <meta name="description" content="A Virtual Industrial Engineering Systems Laboratory, for Education">
+    <!--CSS-->
+    <link type="text/css" rel="stylesheet" href="styling.css" media="screen">
+    <!--JavaScript-->
+    <script type="text/javascript" charset="utf-8" src="jsFunctions.js"></script>
+</head>
+
+<body>
+    <div class="everything">
+        <!-------------->
+        <div class="mainimage">
+            <img src="images/MainPhoto_Manufacturing.jpg" width="640" height="411" alt="(Missing: Manufacturing Image)">
+        </div>
+        <!-------------->
+        <div class="mainheader">
+            <h4>A Virtual Systems Laboratory for Industrial Engineering Education</h4>
+        </div>
+        <!-------------->
+
+        <div class="topicCollection">
+
+            <div id="Topic_Software" class="topic">
+                <a href="#Software" onclick="javascript: ToggleDisplay('Topic_Software', 'Software', 'Topic_Courseware', 'Courseware', 'Topic_Reading', 'Reading', 'Topic_Partners', 'Partners');">
+                    <h3>Software <span>&#65515;</span></h3>
+                    <p>Software components for experimenting with virtual industrial engineering systems.</p>
+                </a>
+            </div>
+
+            <div id="Topic_Courseware" class="topic">
+                <a href="#Courseware" onclick="javascript: ToggleDisplay('Topic_Courseware', 'Courseware', 'Topic_Software', 'Software', 'Topic_Reading', 'Reading', 'Topic_Partners', 'Partners');">
+                    <h3>Courseware <span>&#65515;</span></h3>
+                    <p>University courseware which uses the virtual lab components.</p>
+                </a>
+            </div>
+
+            <div id="Topic_Reading" class="topic">
+                <a href="#Reading" onclick="javascript: ToggleDisplay('Topic_Reading', 'Reading', 'Topic_Software', 'Software', 'Topic_Courseware', 'Courseware', 'Topic_Partners', 'Partners');">
+                    <h3>Reading <span>&#65515;</span></h3>
+                    <p>Papers to explain motivation, purpose, and perspective.</p>
+                </a>
+            </div>
+
+            <div id="Topic_Partners" class="topic">
+                <a href="#Partners" onclick="javascript: ToggleDisplay('Topic_Partners', 'Partners', 'Topic_Software', 'Software', 'Topic_Courseware', 'Courseware', 'Topic_Reading', 'Reading');">
+                    <h3>Partners <span>&#65515;</span></h3>
+                    <p>The project is indebted to all contributors, and certain partners earn special thanks.</p>
+                </a>
+            </div>
+
+        </div>
+
+        <!-------------->
+        <div id="Software" class="contentCollection" style="display:none;">
+            
+            <div class="contentTiles">
+                <!-- Inventory Models -->
+                <div class="contentTile">
+                    <a href="Overview_InventoryModels.html">
+                        <h3>Inventory Models <span>&#65515;</span></h3>
+                        <img src="images/Icon_InventoryControl.png" width="300" height="210" alt="(Missing: Inventory Models Image)">
+                        <!--Icon Source: http://industry-illustration.com/highresolution/l_085.png, accessed 13jan2016.  At the time of access, we are in compliance with all terms of use stated at http://industry-illustration.com/en/agreements.html-->
+                    </a>
+                </div>
+
+                <!-- Single Workstation Models -->
+                <div class="contentTile">
+                    <a href="Overview_SingleWorkstationModels.html">
+                        <h3>Single Workstation Models <span>&#65515;</span></h3>
+                        <img src="images/Icon_SingleWorkstationModels.png" width="300" height="210" alt="(Missing: Single Workstation Models Image)">
+                        <!--Icon Source: http://industry-illustration.com/highresolution/l_032.png, accessed 13jan2016.  At the time of access, we are in compliance with all terms of use stated at http://industry-illustration.com/en/agreements.html-->
+                    </a>
+                </div>
+
+                <!-- Production Line Models -->
+                <div class="contentTile">
+                    <a href="Overview_ProductionLineModels.html">
+                        <h3>Production Line Models <span>&#65515;</span></h3>
+                        <img src="images/Icon_ProductionLineModels.jpg" width="300" height="210" alt="(Missing: Production Line Models Image)">
+                        <!--Icon Source: https://commons.wikimedia.org/wiki/File:NIST_Manufacturing_Systems_Integration_Program.jpg, accessed 20jan2016.  At the time of access, the source is "NIST Programs of the Manufacturing Engineering Laboratory" and the work is in the public domain.-->
+                    </a>
+                </div>
+
+                <!-- Dispatch: Push versus Pull -->
+                <div class="contentTile">
+                    <a href="Overview_PushVsPull.html">
+                        <h3>Dispatch: Push versus Pull <span>&#65515;</span></h3>
+                        <img src="images/Icon_Dispatch.png" width="300" height="210" alt="(Missing: Dispatch Image)">
+                        <!--Icon Source: http://industry-illustration.com/highresolution/l_107.png, accessed 13jan2016.  At the time of access, we are in compliance with all terms of use stated at http://industry-illustration.com/en/agreements.html-->
+                    </a>
+                </div>
+
+                <!-- Aggregate Planning -->
+                <div class="contentTile">
+                    <a href="Overview_AggregatePlanning.html">
+                        <h3>Aggregate Planning <span>&#65515;</span></h3>
+                        <img src="images/Icon_AggregatePlanning.png" width="300" height="210" alt="(Missing: Aggregate Planning Image)">
+                        <!--Icon Source: http://industry-illustration.com/highresolution/l_006.png, accessed 13jan2016.  At the time of access, we are in compliance with all terms of use stated at http://industry-illustration.com/en/agreements.html-->
+                    </a>
+                </div>
+
+                <!-- Logistics -->
+                <div class="contentTile">
+                    <a href="http://www.ise.ncsu.edu/kay/matlog/">
+                        <h3>Logistics <span>&#65515;</span></h3>
+                        <img src="images/Icon_TransportAndLogistics.png" width="300" height="210" alt="(Missing: Logistics Image)">
+                        <!--Icon Source: http://industry-illustration.com/highresolution/l_118.png, accessed 13jan2016.  At the time of access, we are in compliance with all terms of use stated at http://industry-illustration.com/en/agreements.html-->
+                    </a>
+                </div>
+            </div>
+
+            <h3>All software is freely available at GitHub, in <a href="https://github.com/IESystemsLab/Software">this repository</a> with <a href="https://github.com/IESystemsLab/Software/archive/master.zip">this download link</a>.</h3>
+        </div>
+
+        <!-------------->
+        <div id="Courseware" class="contentCollection" style="display:none;">
+            <h3>All courseware is freely available at GitHub, in <a href="https://github.com/IESystemsLab/Courseware">this repository</a> with <a href="https://github.com/IESystemsLab/Courseware/archive/master.zip">this download link</a>.</h3>
+        </div>
+
+        <!-------------->
+        <div id="Reading" class="contentCollection" style="display:none;">
+
+        </div>
+
+        <!-------------->
+        <div id="Partners" class="contentCollection" style="display:none;">
+
+        </div>
+
+
+        <!-------------->
+        <div class="footer">
+            </br>
+            </br>
+            ----------
+            </br>
+            </br>
+            Image "<a href="http://www.flickr.com/photos/26087974@N05/9595044689">High Tech Manufacturing In China</a>"
+            by <a href="http://www.flickr.com/photos/26087974@N05/">Cory M. Grenler</a>
+            is licensed under <a href="http://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>.
+            </br>
+            </br>
+            Website design inspired by <a href="http://madebysofa.com/">http://madebysofa.com/.</a>
+        </div>
+    </div>
+</body>
+</html>

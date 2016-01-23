@@ -1,0 +1,500 @@
+﻿
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Inventory Models</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-01-13"><meta name="DC.source" content="Overview_InventoryModels.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2em; color:#d55000; line-height:100%; font-weight:normal; }  /*font-size:1.5, 1.2, 1.1em*/
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.25em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.25em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.4em; line-height:140%; padding: 20px; }  /*font-size:1.2em*/
+
+pre, code { font-size:14px; } /*font-size:12px*/
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Inventory Models</h1><!--introduction--><p>The contents of the <b>InventoryModels</b> folder concern classical inventory control.  The models implemented at the time of writing include EOQ, Newsvendor, Base Stock, and Qr.  This subject is lighter on analytical formulas and heavier on simulation, as determined by the types of questions addressed by classical inventory control theory.  Analytical formulas are implemented to solve the classical optimization problems, but more depth (for example, considering performance measures other than expected cost) requires simulation.</p><p>EOQ, Base Stock, and Qr all concern <i>recurring</i> inventory replenishments, and are well-suited to discrete-event simulation.  Newsvendor, however, concerns a <i>single, one-time</i> inventory replenishment and is better suited to a Monte Carlo simulation.  Hopp &amp; Spearman do not classify EOQ as a <i>statistical</i> inventory model - the classic formulation assumes that demand is deterministic - but this assumption is easily relaxed in a simulation model.  Therefore, all models implemented include random demand (which can be made deterministic by choosing a normal distribution with variability=eps, the closest you can get to zero in MATLAB).  In addition, the Base Stock and Qr simulation models relax the classic formulations' assumption that replenishment lead time is deterministic, which can be made deterministic in the same way as demand.</p><p>A note about the simulation models:  Costs (whether production costs, lot setup costs, inventory holding costs, backorder costs, or total costs) are returned in two ways - normalized per unit of satisifed demand, and one-year aggregate.  In both cases, however, simulations are not necessarily performed for just one year, and replications are deliberately forced to have different lengths through randomization. This is done to smooth out sawtooth effects in cost curves.  If simulating for exactly one year, for example with EOQ and Qr, the timing of the final lot ordered (relative to the end-of-year) is very influential and induces sawtooth-like cost curves as a function of Q.  We have mixed feelings on curve-smoothing; a benefit is that it enables visualizing interactions between variables which would otherwise be clouded by variability, but a disadvantage is that focusing on averages may be unhelpful to someone whose planning horizon is one year instead of one decade.</p><p>Most importantly, a collection of DEMO scripts is included showing how to use the analytical formulas, the simulation models, and both to compare their results.  Note that the DEMO scripts are only usage examples, the collection is certainly not exhaustive, and they are included to illustrate how the underlying analytical formulas and simulation models might be used.  It is hoped that these limited examples will inspire users to create and share additional models and examples.  The remainder of this overview summarizes what the included DEMO scripts do.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Newsvendor Assumptions</a></li><li><a href="#2">Newsvendor:  Expected Profit, Sensitivity at Q*, and Probability of Loss as Order Quantity Q Changes</a></li><li><a href="#3">Newsvendor:  Expected Profit as Demand <i>Distribution</i> Changes</a></li><li><a href="#4">Newsvendor:  Expected Profit as Demand Distribution <i>Variability</i> Changes</a></li><li><a href="#5">Newsvendor:  Profit Distribution</a></li><li><a href="#6">Newsvendor:  Profit Statistics as Demand Distribution <i>Variability</i> Changes</a></li><li><a href="#7">EOQ Assumptions</a></li><li><a href="#8">EOQ:  Costs as Lot Size Q Changes</a></li><li><a href="#9">EOQ:  Costs at Q* as Inventory Holding Cost Changes</a></li><li><a href="#10">EOQ:  Costs as Demand Interarrival Time Variability Changes</a></li><li><a href="#11">Base Stock Assumptions</a></li><li><a href="#12">Base Stock:  Costs, Backorder Level, and Fill Rate as Base Stock Level R Changes</a></li><li><a href="#13">Base Stock:  Backorder Distribution</a></li><li><a href="#14">Base Stock:  Fill Rate at R* as Backorder Cost Changes</a></li><li><a href="#15">Base Stock:  Costs, Backorder Level, and Fill Rate as Demand Interarrival Time Variability Changes</a></li><li><a href="#16">Base Stock:  Costs, Backorder Level, and Fill Rate as Replenishment Lead Time <i>Mean</i> Changes</a></li><li><a href="#17">Base Stock:  Costs, Backorder Level, and Fill Rate as Replenishment Lead Time <i>Variability</i> Changes</a></li><li><a href="#18">Qr Assumptions</a></li><li><a href="#19">Qr:  Total Costs and Fill Rate as Lot Size Q and Reorder Point R Change</a></li><li><a href="#20">Qr:  Backorder Distribution</a></li><li><a href="#21">Qr:  Inventory Statistics at (Q*, R*) as Lot Setup Cost Changes</a></li></ul></div><h2>Newsvendor Assumptions<a name="1"></a></h2><p>Newsvendor <i>system</i> assumptions:</p><div><ul><li>Products are separable with no shared interactions.  This enables single-product analysis.</li><li>Inventory cannot be carried across planning periods.  Future time periods are independent of the current decision, which is why the classical newsvendor problem is static and involves only a single, one-time inventory replenishment.</li><li>Demand is random.  At the time of writing, both the analytical and the simulation model require that demand can be modeled with a known probability distribution (as opposed to, for example, a non-parametric description).</li><li>Deliveries are made in advance of demand, such that all stock is available to meet demand.</li></ul></div><p>Newsvendor <i>cost</i> assumptions:</p><div><ul><li>Each unit ordered incurs a fixed production cost (cost/unit)</li><li>Hopp &amp; Spearman's formulation (section 2.4.1, ed.2) is stated in terms of costs of ordering-too- little and ordering-too-much, and assumes that they are linear (e.g. proportional to the amount by which demand exceeds supply or supply exceeds demand).  The formulation implemented is equivalent, but requires a different statement of these costs:</li><li>Each unit has a fixed sale cost (cost/unit)</li><li>Each unit has a fixed salvage cost if left over after all demand satisfied (cost/unit)</li></ul></div><h2>Newsvendor:  Expected Profit, Sensitivity at Q*, and Probability of Loss as Order Quantity Q Changes<a name="2"></a></h2><p>The following demo sweeps over order size Q.  Visualizations are generated for E[Profit] versus Q and also E[Profit]'s sensitivity around (empirical) Q*.  Because E[Profit] may not be the most helpful performance metric for newsvendor's one-time decision, an additional visualization is generated which pairs E[Profit] with Pr[Profit&lt;0] for each Q.</p><p>Parameters which can be changed by a user include demand's distribution, mean, and variability, the product's unit cost, price, and salvage value, and a range of order quantities Q.</p><pre class="codeinput">DEMO_Newsvendor_SweepOrderSizeQ_VisualizeExpProfit
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_01.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_02.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_03.png" alt=""> <h2>Newsvendor:  Expected Profit as Demand <i>Distribution</i> Changes<a name="3"></a></h2><p>The following demo sweeps over order size Q, and generates a visualization for E[Profit] versus Q. It does this for various values of the demand distribution <i>type</i>, at the time of writing exponential, uniform, triangular_symmetric, gamma, lognormal, and normal.  (Be aware that uniform, triangular, and normal may not be quite so because negative demand samples are truncated at zero.) A separate curve is generated for each distribution type, such that the E[Profit] curve's shape and also Q* can be compared as the demand distribution type (but not the mean or SCV) changes.</p><p>Parameters which can be changed by a user include a range of demand distribution types, the common mean and SCV for each distribution, the product's unit cost, price, and salvage value, and a range of order quantities Q.</p><pre class="codeinput">DEMO_Newsvendor_SweepQandDemandDistrib_VisExpProfit
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_04.png" alt=""> <h2>Newsvendor:  Expected Profit as Demand Distribution <i>Variability</i> Changes<a name="4"></a></h2><p>The following demo sweeps over order size Q, and generates a visualization for E[Profit] versus Q. It does this for various values of demand variability, as measured by SCV (squared coefficient of variability, the variance divided by the mean^2).  A separate curve is generated for each demand SCV, such that the E[Profit] curve's shape and also Q* can be compared as the demand distribution SCV (but not the type or mean) changes.</p><p>Parameters which can be changed by a user include demand's distribution and mean, a range of demand SCVs, the product's unit cost, price, and salvage value, and a range of order quantities Q.</p><pre class="codeinput">DEMO_Newsvendor_SweepQandDemandSCV_VisExpProfit
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_05.png" alt=""> <h2>Newsvendor:  Profit Distribution<a name="5"></a></h2><p>The following demo fixes Q and computes many samples of profit (sales revenue plus salvage revenue minus production costs) using a Monte-Carlo simulation.  Instead of returning a metric such as <i>expected</i> profit, however, this demo returns visualizations of the empirical profit distribution (its PDF and CDF).  One interesting statistic which can be visualized in the CDF plot is the (empirical) probability that profit is negative, meaning production costs exceed the sum of sales and salvage revenue, such that the choice of Q results in losing money.</p><p>Parameters which can be changed by a user include demand's distribution, mean, and variability, the product's unit cost, price, and salvage value, and Q.</p><pre class="codeinput">DEMO_Newsvendor_FixQ_VisualizeProfitPDFandCDF
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_06.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_07.png" alt=""> <h2>Newsvendor:  Profit Statistics as Demand Distribution <i>Variability</i> Changes<a name="6"></a></h2><p>The following demo sweeps over demand variability, as measured by SCV (squared coefficient of variability, the variance divided by the mean^2).  For each value the analytical Q* is computed, and then many samples of profit (sales plus salvage revenue minus purchase/ production costs) are computed using a Monte-Carlo simulation.  Two visualizations are generated, showing (1) The distribution of profit at (analytical) Q* as demand SCV increases, and (2) A pairing of E[Profit] with Pr[Profit&lt;0] at (analytical) Q* as demand SCV increases.</p><p>Parameters which can be changed by a user include demand's distribution and mean, a range of demand SCVs, and the product's unit cost, price, and salvage value.</p><pre class="codeinput">DEMO_Newsvendor_SweepDemandSCV_VisProfitDistribAndLossProb
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_08.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_09.png" alt=""> <h2>EOQ Assumptions<a name="7"></a></h2><p>EOQ <i>system</i> assumptions:</p><div><ul><li>Products are separable with no shared interactions.  This enables single-product analysis.</li><li>Demand is deterministic with a constant rate over time.  This assumption is relaxed in the simulation model; demand can be random, or made deterministic by choosing the normal distribution with stdev=eps, which is as close to zero as possible.</li><li>When inventory drops to zero, a lot of size Q is immediately reordered.</li><li>Production and delivery of a lot are instantaneous.</li></ul></div><p>EOQ cost assumptions:</p><div><ul><li>Each unit ordered incurs a fixed production cost (cost/unit)</li><li>Each lot of Q units ordered incurs a fixed setup cost (cost/lot)</li><li>Each unit in inventory incurs a time-dependent holding cost (cost/unit-time)</li></ul></div><h2>EOQ:  Costs as Lot Size Q Changes<a name="8"></a></h2><p>The purpose of the following demo is to reproduce figure 2.2 in Hopp &amp; Spearman (ed. 2).  The demo invokes the simulation model 'ProdSystem_EOQAssumptionsAndCosts' (through its wrapper function) over a range of lot sizes Q.  The output is a visualization of average costs incurred for each value of Q - total costs, inventory holding costs, lot setup costs, and production costs.</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, the product's production cost, inventory holding cost, and lot setup cost, and a range of lot sizes Q.</p><pre class="codeinput">DEMO_EOQ_SweepOrderQtyQ_VisualizeCosts
+</pre><!--<img vspace="5" hspace="5" src="images/Overview_InventoryModels_10.png" alt="">--> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_11.png" alt=""> <h2>EOQ:  Costs at Q* as Inventory Holding Cost Changes<a name="9"></a></h2><p>The purpose of the following demo is to observe the effect of increasing inventory holding cost H relative to a fixed lot setup cost A.  The demo invokes the simulation model 'ProdSystem_EOQAssumptionsAndCosts' (through its wrapper function) over a range of inventory holding costs.  For each value the analytical Q* is computed, and the output is a visualization of average costs incurred (total, inventory holding, lot setup, and production) as inventory holding cost increases.  An expected result is that as H increases then Q* will decrease.</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, the product's production cost, lot setup cost, and a range of inventory holding costs (as multiples of the lot setup cost).</p><pre class="codeinput">DEMO_EOQ_SweepHoldingCostH_VisualizeCostsAtQStar
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_12.png" alt=""> <h2>EOQ:  Costs as Demand Interarrival Time Variability Changes<a name="10"></a></h2><p>The following demo sweeps over demand interarrival time variability, as measured by SCV (squared coefficient of variability, the variance divided by the mean^2).  The demo invokes the simulation model 'ProdSystem_EOQAssumptionsAndCosts' (through its wrapper function) over a range of demand interarrival time SCVs.  The output is a visualization of average costs incurred for each demand interarrival time SCV - total costs, inventory holding costs, lot setup costs, and production costs.  An expected result is that the cost curves will remain flat, because the EOQ assumption that production and delivery of a lot are instantaneous implies that only demand interarrival times' mean, not variability, should matter (and if true, justifies the assumption that demand is deterministic).</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and a range of SCVs, the product's production cost, lot setup cost, and inventory holding cost, and a lot size Q.</p><pre class="codeinput">DEMO_EOQ_SweepDemandSCV_VisualizeCosts
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_13.png" alt=""> <h2>Base Stock Assumptions<a name="11"></a></h2><p>Base Stock <i>system</i> assumptions:</p><div><ul><li>Products are separable with no shared interactions.  This enables single-product analysis.</li><li>Demands occur one at a time, and there are no batch orders.  This assumption is built into the simulation model because (to the best of my knowledge) a Time-Based Entity Generator does not support batch generation of entities.  If desired, demand inter-arrival times can be made deterministic by choosing the normal distribution with stdev=eps, as close to zero as possible in MATLAB.</li><li>Demand which is not filled immediately is backordered, and there are no lost sales.</li><li>A replenishment order is placed every time a demand occurs.</li><li>Production and delivery of replenishment orders are NOT instantaneous, but rather require a fixed and known replenishment lead time.  The "fixed and known" assumption is relaxed in the simulation model - replenishment lead times can be random, or made deterministic by choosing the normal distribution with stdev=eps, which is as close to zero as possible.</li><li><b>Inventory Position</b> is defined as on-hand inventory, plus open orders (not yet filled due to replenishment lead time), minus backorders.  The inventory position should always equal the base stock level R.</li></ul></div><p>Base Stock <i>cost</i> assumptions:</p><div><ul><li>Each unit ordered incurs a fixed production cost (cost/unit)</li><li>Each unit in inventory incurs a time-dependent holding cost (cost/unit-time)</li><li>Each demand backordered incurs a time-dependent backorder cost (cost/unit-time)</li><li>There is NOT any fixed cost associated with a replenishment order, nor any constraint on the number of replenishment orders that can be placed in any time window.</li></ul></div><h2>Base Stock:  Costs, Backorder Level, and Fill Rate as Base Stock Level R Changes<a name="12"></a></h2><p>The purpose of the following demo is to reproduce figure 2.2 in Hopp &amp; Spearman (ed. 2), except for the Base Stock inventory model instead of the EOQ model.  The demo invokes the simulation model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of base stock levels R.  The output is a visualization of average costs incurred for each value of R - total cost, inventory holding cost, backorder cost, and production cost.  Additional visualizations include fill rate (the fraction of demand filled without backorder and delay) as a function of R, statistics about the distribution of backorder level as a function of R, and an alternative visualization plotting costs against fill rate for each value of R, given that fill rate targets are often analysis <i>inputs</i> rather than <i>outputs</i>.</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, replenishment lead times' distribution, mean, and variability, the product's production cost, inventory holding cost, and backorder cost, and a range of base stock levels R.</p><p>UPDATE:  The <i>PARALLEL</i> version of this demo supercedes the <i>SERIAL</i> version.  It should produce exactly the same results, just much faster.  It introduces parallelization by replacing several nested FOR loops with a single PARFOR loop, which by default will start and use as many background MATLAB sessions as your processor has cores.</p><pre class="codeinput"><span class="comment">%DEMO_BaseStock_SweepR_VisualizeCostsAndFillRate_SERIAL</span>
+DEMO_BaseStock_SweepR_VisualizeCostsAndFillRate_PARALLEL
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_14.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_15.png" alt=""> <h2>Base Stock:  Backorder Distribution<a name="13"></a></h2><p>The following demo fixes R and all other parameters, collects many samples of the backorder level across multiple replications, and returns visualizations of the backorder level's empirical distribution (its PDF and CDF).</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, replenishment lead times' distribution, mean, and variability, the product's production cost, inventory holding cost, and backorder cost, and base stock level R.</p><pre class="codeinput">DEMO_BaseStock_FixR_VisualizeBackorderPDFandCDF
+</pre><!--<img vspace="5" hspace="5" src="images/Overview_InventoryModels_16.png" alt="">--> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_17.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_18.png" alt=""> <h2>Base Stock:  Fill Rate at R* as Backorder Cost Changes<a name="14"></a></h2><p>The following demo was created to answer the question <i>How high must the backorder cost be to realize a certain value of fill rate at R*?</i>  While it answers the question, it's unclear how much the answer depends on specific parameter values, so be careful drawing any general inferences. The demo invokes the simulation model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of backorder costs B.  For each value the analytical R* is computed, and the output is a visualization of fill rate at R* for each value of backorder cost.</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, replenishment lead times' distribution, mean, and variability, the product's production cost, inventory holding cost, and a range of backorder costs (as multiples of the inventory holding cost).</p><pre class="codeinput">DEMO_BaseStock_SweepBackorderCostB_VisualizeFillRate
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_19.png" alt=""> <h2>Base Stock:  Costs, Backorder Level, and Fill Rate as Demand Interarrival Time Variability Changes<a name="15"></a></h2><p>The following demo sweeps over demand interarrival time variability, as measured by SCV (squared coefficient of variability, the variance divided by the mean^2).  The demo invokes the simulation model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of demand interarrival time SCVs.  One output is a visualization of average costs incurred (total, inventory holding, backorder, and production) as demand interarrival time SCV increases.  A second output is a visualization of fill rate as demand interarrival time SCV increases.</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and a range of SCVs, replenishment lead times' distribution, mean, and variability, the product's production cost, inventory holding cost, and backorder cost, and base stock level R.</p><p>UPDATE:  v1 of the demo uses a fixed value for R, and v2 of the demo uses the analytical R* for the given parameters (which is a function of the demand distribution during replenishment lead time, and so <i>changes with the demand interarrival time SCV</i>).  Depending on the parameters chosen, you may actually see R* <i>decrease</i> as demand interarrival time SCV increases, a counterintuitive possibility that Hopp &amp; Spearman consider in a footnote on page 87 (ed. 2).</p><pre class="codeinput">DEMO_BaseStock_SweepDemandSCV_VisualizeCostsAndFillRate_v1
+DEMO_BaseStock_SweepDemandSCV_VisualizeCostsAndFillRate_v2
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_20.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_21.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_22.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_23.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_24.png" alt=""> <h2>Base Stock:  Costs, Backorder Level, and Fill Rate as Replenishment Lead Time <i>Mean</i> Changes<a name="16"></a></h2><p>The following demo sweeps over replenishment lead time mean.  The demo invokes the simulation model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of replenishment lead time means.  One output is a visualization of average costs incurred (total, inventory holding, backorder, and production) as replenishment lead time mean increases.  A second output is a visualization to look for patterns in fill rate as replenishment lead time mean increases.  An expected result is that as L increases then R* and also inventory holding costs will increase.</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, replenishment lead times' distribution, a range of means, and variability, the product's production cost, inventory holding cost, and backorder cost, and base stock level R.</p><pre class="codeinput">DEMO_BaseStock_SweepLeadTimeL_VisualizeCostsAndFillRate
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_25.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_26.png" alt=""> <h2>Base Stock:  Costs, Backorder Level, and Fill Rate as Replenishment Lead Time <i>Variability</i> Changes<a name="17"></a></h2><p>The following demo sweeps over replenishment lead time variability, as measured by SCV (squared coefficient of variability, the variance divided by the mean^2).  The demo invokes the simulation model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of replenishment lead time SCVs.  One output is a visualization of average costs incurred (total, inventory, holding, backorder, and production) as demand interarrival time SCV increases.  A second output is a visualization to look for patterns in fill rate as replenishment lead time SCV increases.</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and a range of SCVs, replenishment lead times' distribution, mean, and a range of SCVs, the product's production cost, inventory holding cost, and backorder cost, and base stock level R.</p><pre class="codeinput">DEMO_BaseStock_SweepLeadTimeSCV_VisualizeCostsAndFillRate
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_27.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_28.png" alt=""> <h2>Qr Assumptions<a name="18"></a></h2><p>Qr <i>system</i> assumptions:</p><div><ul><li>Products are separable with no shared interactions.  This enables single-product analysis.</li><li>Demands occur one at a time, and there are no batch demands.  This assumption is built into the simulation model because (to the best of my knowledge) a Time-Based Entity Generator does not support batch generation of entities.  If desired, demand inter-arrival times can be made deterministic by choosing the normal distribution with stdev=eps, which is as close to zero as possible.</li><li>Demand which is not filled immediately is backordered, and there are no lost sales.</li><li><b>Inventory Position</b> is defined as on-hand inventory, plus open orders (not yet filled due to replenishment lead time), minus backorders.  The inventory position in the QR model should oscillate between R and Q+R.</li><li>A replenishment order for a lot of size Q is placed immediately whenever the inventory position decreases to R.  Because replenishment orders are placed immediately, the inventory position should never spend time at level R, but upon decreasing to R then jump immediately to Q+R.</li><li>Production and delivery of replenishment orders are NOT instantaneous, but rather require a fixed and known replenishment lead time.  The "fixed and known" assumption is relaxed in the simulation model - replenishment lead times can be random, or made deterministic by choosing the normal distribution with stdev=eps, which is as close to zero as possible.</li></ul></div><p>Qr <i>cost</i> assumptions:</p><div><ul><li>Each unit ordered incurs a fixed production cost (cost/unit)</li><li>Each lot of Q units ordered incurs a fixed setup cost (cost/lot).  An alternative described in Hopp &amp; Spearman is to constrain the maximum number of replenishment orders per time window, but this alternative is not implemented in the simulation model 'ProdSystem_QrAssumptionsAndCosts'.</li><li>Each unit in inventory incurs a time-dependent holding cost (cost/unit-time)</li><li>Each demand backordered incurs a time-dependent backorder cost (cost/unit-time)</li></ul></div><h2>Qr:  Total Costs and Fill Rate as Lot Size Q and Reorder Point R Change<a name="19"></a></h2><p>The purpose of the following demo is to reproduce figure 2.2 in Hopp &amp; Spearman (pg. 51 in ed. 2), except for the Qr inventory model instead of the EOQ model.  However, that task is inherently difficult because while the expected cost curves for EOQ or Base Stock have only one independent variable (lot size Q for EOQ, base stock level R for Base Stock), the Qr model has two, both Q and R. Therefore, the output will be 3-D surfaces rather than 2-D curves.  The demo invokes the simulation model 'ProdSystem_QrAssumptionsAndCosts' (through its wrapper function) over a range of lot sizes Q and reorder points R.  The output is visualizations of average costs incurred for each value of (Q, R) - total costs, lot setup costs, inventory holding costs, backorder costs, and production costs. An additional visualization shows fill rate (the fraction of demand filled without backorder and delay) for each value of (Q, R).</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, replenishment lead times' distribution, mean, and variability, the product's production cost, lot setup cost, inventory holding cost, and backorder cost, and a range of lot sizes Q and reorder points R.</p><p>UPDATE:  The <i>PARALLEL</i> version of this demo supercedes the <i>SERIAL</i> version.  It should produce exactly the same results, just much faster.  It introduces parallelization by replacing several nested FOR loops with a single PARFOR loop, which by default will start and use as many background MATLAB sessions as your processor has cores.</p><pre class="codeinput"><span class="comment">%DEMO_Qr_SweepQandR_VisualizeCostAndFillRate_SERIAL</span>
+DEMO_Qr_SweepQandR_VisualizeCostAndFillRate_PARALLEL
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_29.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_30.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_31.png" alt=""> <h2>Qr:  Backorder Distribution<a name="20"></a></h2><p>The following demo fixes Q, R, and all other parameters, collects many samples of the backorder level across multiple replications, and returns visualizations of the backorder level's empirical distribution (its PDF and CDF).</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, replenishment lead times' distribution, mean, and variability, the product's production cost, lot setup cost, inventory holding cost, and backorder cost, and the lot size Q and reorder point R.</p><pre class="codeinput">DEMO_Qr_FixQandR_VisualizeBackorderPDFandCDF
+</pre><!--<img vspace="5" hspace="5" src="images/Overview_InventoryModels_32.png" alt="">--> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_33.png" alt=""> <img vspace="5" hspace="5" src="images/Overview_InventoryModels_34.png" alt=""> <h2>Qr:  Inventory Statistics at (Q*, R*) as Lot Setup Cost Changes<a name="21"></a></h2><p>The purpose of the following demo is to observe the effect of increasing lot setup cost A relative to a fixed inventory holding cost H.  The demo invokes the simulation model 'ProdSystem_QrAssumptionsAndCosts' (through its wrapper function) over a range of lot setup costs A.  For each value the analytical (Q*, R*) is computed, and the output is a visualization of average inventory statistics (number of replenishments per year, lot size Q*, and on-hand inventory level) as lot setup cost increases. An expected result is that as A increases relative to H then Q* will increase, the number of replenishments will decrease, and on-hand inventory will increase.</p><p>Parameters which can be changed by a user include demand interarrival times' distribution, mean, and variability, replenishment lead times' distribution, mean, and variability, the product's production cost, inventory holding cost, backorder cost, and a range of lot setup costs (as multiples of the inventory holding cost).</p><pre class="codeinput">DEMO_Qr_SweepA_VisualizeInventoryStatsAtQStarRStar
+</pre><img vspace="5" hspace="5" src="images/Overview_InventoryModels_35.png" alt=""> <p class="footer"><br>Copyright (c) 2015, Georgia Institute of Technology. All rights reserved.<br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Inventory Models
+% The contents of the *InventoryModels* folder concern classical inventory control.  The models
+% implemented at the time of writing include EOQ, Newsvendor, Base Stock, and Qr.  This subject
+% is lighter on analytical formulas and heavier on simulation, as determined by the types of questions 
+% addressed by classical inventory control theory.  Analytical formulas are implemented to solve the
+% classical optimization problems, but more depth (for example, considering performance measures
+% other than expected cost) requires simulation.
+%
+% EOQ, Base Stock, and Qr all concern _recurring_ inventory replenishments, and are well-suited to 
+% discrete-event simulation.  Newsvendor, however, concerns a _single, one-time_ inventory
+% replenishment and is better suited to a Monte Carlo simulation.  Hopp & Spearman do not classify 
+% EOQ as a _statistical_ inventory model - the classic formulation assumes that demand is
+% deterministic - but this assumption is easily relaxed in a simulation model.  Therefore, all
+% models implemented include random demand (which can be made deterministic by choosing a normal 
+% distribution with variability=eps, the closest you can get to zero in MATLAB).  In addition, the Base
+% Stock and Qr simulation models relax the classic formulations' assumption that replenishment lead 
+% time is deterministic, which can be made deterministic in the same way as demand.
+%
+% A note about the simulation models:  Costs (whether production costs, lot setup costs, inventory
+% holding costs, backorder costs, or total costs) are returned in two ways - normalized per unit of satisifed demand,
+% and one-year aggregate.  In both cases, however, simulations are not necessarily performed for
+% just one year, and replications are deliberately forced to have different lengths through randomization.
+% This is done to smooth out sawtooth effects in cost curves.  If simulating for exactly one year, 
+% for example with EOQ and Qr, the timing of the final lot ordered (relative to the end-of-year) is
+% very influential and induces sawtooth-like cost curves as a function of Q.  We have mixed feelings
+% on curve-smoothing; a benefit is that it enables visualizing interactions between variables which
+% would otherwise be clouded by variability, but a disadvantage is that focusing on averages may
+% be unhelpful to someone whose planning horizon is one year instead of one decade.
+%
+% Most importantly, a collection of DEMO scripts is included showing how to use the analytical
+% formulas, the simulation models, and both to compare their results.  Note that the DEMO scripts
+% are only usage examples, the collection is certainly not exhaustive, and they are included to 
+% illustrate how the underlying analytical formulas and simulation models might be used.  It is
+% hoped that these limited examples will inspire users to create and share additional models and
+% examples.  The remainder of this overview summarizes what the included DEMO scripts do.
+
+
+
+
+
+%% Newsvendor Assumptions
+% Newsvendor _system_ assumptions:
+%
+% * Products are separable with no shared interactions.  This enables single-product analysis.
+% * Inventory cannot be carried across planning periods.  Future time periods are independent of the
+% current decision, which is why the classical newsvendor problem is static and involves only a
+% single, one-time inventory replenishment.
+% * Demand is random.  At the time of writing, both the analytical and the simulation model require
+% that demand can be modeled with a known probability distribution (as opposed to, for example, a
+% non-parametric description).
+% * Deliveries are made in advance of demand, such that all stock is available to meet demand.
+%
+% Newsvendor _cost_ assumptions:
+%
+% * Each unit ordered incurs a fixed production cost (cost/unit)
+% * Hopp & Spearman's formulation (section 2.4.1, ed.2) is stated in terms of costs of ordering-too-
+% little and ordering-too-much, and assumes that they are linear (e.g. proportional to the amount by
+% which demand exceeds supply or supply exceeds demand).  The formulation implemented is equivalent,
+% but requires a different statement of these costs:
+% * Each unit has a fixed sale cost (cost/unit)
+% * Each unit has a fixed salvage cost if left over after all demand satisfied (cost/unit)
+
+
+%% Newsvendor:  Expected Profit, Sensitivity at Q*, and Probability of Loss as Order Quantity Q Changes
+% The following demo sweeps over order size Q.  Visualizations are generated for E[Profit] versus Q 
+% and also E[Profit]'s sensitivity around (empirical) Q*.  Because E[Profit] may not be the most
+% helpful performance metric for newsvendor's one-time decision, an additional visualization is
+% generated which pairs E[Profit] with Pr[Profit<0] for each Q.
+%
+% Parameters which can be changed by a user include demand's distribution, mean, and variability,
+% the product's unit cost, price, and salvage value, and a range of order quantities Q.
+DEMO_Newsvendor_SweepOrderSizeQ_VisualizeExpProfit
+
+
+%% Newsvendor:  Expected Profit as Demand _Distribution_ Changes
+% The following demo sweeps over order size Q, and generates a visualization for E[Profit] versus Q.
+% It does this for various values of the demand distribution _type_, at the time of writing 
+% exponential, uniform, triangular_symmetric, gamma, lognormal, and normal.  (Be aware that uniform,
+% triangular, and normal may not be quite so because negative demand samples are truncated at zero.)
+% A separate curve is generated for each distribution type, such that the E[Profit] curve's shape
+% and also Q* can be compared as the demand distribution type (but not the mean or SCV) changes.
+%
+% Parameters which can be changed by a user include a range of demand distribution types, the common
+% mean and SCV for each distribution, the product's unit cost, price, and salvage value, and a range
+% of order quantities Q.
+DEMO_Newsvendor_SweepQandDemandDistrib_VisExpProfit
+
+
+%% Newsvendor:  Expected Profit as Demand Distribution _Variability_ Changes
+% The following demo sweeps over order size Q, and generates a visualization for E[Profit] versus Q.
+% It does this for various values of demand variability, as measured by SCV (squared coefficient of
+% variability, the variance divided by the mean^2).  A separate curve is generated for each demand
+% SCV, such that the E[Profit] curve's shape and also Q* can be compared as the demand distribution
+% SCV (but not the type or mean) changes.
+%
+% Parameters which can be changed by a user include demand's distribution and mean, a range of
+% demand SCVs, the product's unit cost, price, and salvage value, and a range of order quantities Q.
+DEMO_Newsvendor_SweepQandDemandSCV_VisExpProfit
+
+
+%% Newsvendor:  Profit Distribution
+% The following demo fixes Q and computes many samples of profit (sales revenue plus salvage revenue 
+% minus production costs) using a Monte-Carlo simulation.  Instead of returning a metric such as
+% _expected_ profit, however, this demo returns visualizations of the empirical profit distribution 
+% (its PDF and CDF).  One interesting statistic which can be visualized in the CDF plot is the 
+% (empirical) probability that profit is negative, meaning production costs exceed the sum of sales
+% and salvage revenue, such that the choice of Q results in losing money.
+%
+% Parameters which can be changed by a user include demand's distribution, mean, and variability,
+% the product's unit cost, price, and salvage value, and Q.
+DEMO_Newsvendor_FixQ_VisualizeProfitPDFandCDF
+
+
+%% Newsvendor:  Profit Statistics as Demand Distribution _Variability_ Changes
+% The following demo sweeps over demand variability, as measured by SCV (squared coefficient of
+% variability, the variance divided by the mean^2).  For each value the analytical Q* is computed,
+% and then many samples of profit (sales plus salvage revenue minus purchase/ production costs) 
+% are computed using a Monte-Carlo simulation.  Two visualizations are generated, showing (1) The 
+% distribution of profit at (analytical) Q* as demand SCV increases, and (2) A pairing of E[Profit]
+% with Pr[Profit<0] at (analytical) Q* as demand SCV increases.
+%
+% Parameters which can be changed by a user include demand's distribution and mean, a range of
+% demand SCVs, and the product's unit cost, price, and salvage value.
+DEMO_Newsvendor_SweepDemandSCV_VisProfitDistribAndLossProb
+
+
+
+
+
+%% EOQ Assumptions
+% EOQ _system_ assumptions:
+%
+% * Products are separable with no shared interactions.  This enables single-product analysis.
+% * Demand is deterministic with a constant rate over time.  This assumption is relaxed in the
+% simulation model; demand can be random, or made deterministic by choosing the normal distribution
+% with stdev=eps, which is as close to zero as possible.
+% * When inventory drops to zero, a lot of size Q is immediately reordered.
+% * Production and delivery of a lot are instantaneous.
+%
+% EOQ cost assumptions:
+%
+% * Each unit ordered incurs a fixed production cost (cost/unit)
+% * Each lot of Q units ordered incurs a fixed setup cost (cost/lot)
+% * Each unit in inventory incurs a time-dependent holding cost (cost/unit-time)
+
+
+%% EOQ:  Costs as Lot Size Q Changes
+% The purpose of the following demo is to reproduce figure 2.2 in Hopp & Spearman (ed. 2).  The demo
+% invokes the simulation model 'ProdSystem_EOQAssumptionsAndCosts' (through its wrapper function)
+% over a range of lot sizes Q.  The output is a visualization of average costs incurred for each
+% value of Q - total costs, inventory holding costs, lot setup costs, and production costs.
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, the product's production cost, inventory holding cost, and lot setup cost,
+% and a range of lot sizes Q.
+DEMO_EOQ_SweepOrderQtyQ_VisualizeCosts
+
+
+%% EOQ:  Costs at Q* as Inventory Holding Cost Changes
+% The purpose of the following demo is to observe the effect of increasing inventory holding cost H
+% relative to a fixed lot setup cost A.  The demo invokes the simulation model 
+% 'ProdSystem_EOQAssumptionsAndCosts' (through its wrapper function) over a range of inventory
+% holding costs.  For each value the analytical Q* is computed, and the output is a visualization of
+% average costs incurred (total, inventory holding, lot setup, and production) as inventory holding
+% cost increases.  An expected result is that as H increases then Q* will decrease.
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, the product's production cost, lot setup cost, and a range of inventory
+% holding costs (as multiples of the lot setup cost).
+DEMO_EOQ_SweepHoldingCostH_VisualizeCostsAtQStar
+
+
+%% EOQ:  Costs as Demand Interarrival Time Variability Changes
+% The following demo sweeps over demand interarrival time variability, as measured by SCV (squared
+% coefficient of variability, the variance divided by the mean^2).  The demo invokes the simulation
+% model 'ProdSystem_EOQAssumptionsAndCosts' (through its wrapper function) over a range of demand
+% interarrival time SCVs.  The output is a visualization of average costs incurred for each demand
+% interarrival time SCV - total costs, inventory holding costs, lot setup costs, and production
+% costs.  An expected result is that the cost curves will remain flat, because the EOQ assumption
+% that production and delivery of a lot are instantaneous implies that only demand interarrival
+% times' mean, not variability, should matter (and if true, justifies the assumption that demand is
+% deterministic).
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and a range of SCVs, the product's production cost, lot setup cost, and inventory holding
+% cost, and a lot size Q.
+DEMO_EOQ_SweepDemandSCV_VisualizeCosts
+
+
+
+
+
+%% Base Stock Assumptions
+% Base Stock _system_ assumptions:
+%
+% * Products are separable with no shared interactions.  This enables single-product analysis.
+% * Demands occur one at a time, and there are no batch orders.  This assumption is built into the
+% simulation model because (to the best of my knowledge) a Time-Based Entity Generator does not
+% support batch generation of entities.  If desired, demand inter-arrival times can be made
+% deterministic by choosing the normal distribution with stdev=eps, as close to zero as possible in
+% MATLAB.
+% * Demand which is not filled immediately is backordered, and there are no lost sales.
+% * A replenishment order is placed every time a demand occurs.
+% * Production and delivery of replenishment orders are NOT instantaneous, but rather require a
+% fixed and known replenishment lead time.  The "fixed and known" assumption is relaxed in the
+% simulation model - replenishment lead times can be random, or made deterministic by choosing the
+% normal distribution with stdev=eps, which is as close to zero as possible.
+% * *Inventory Position* is defined as on-hand inventory, plus open orders (not yet filled due to
+% replenishment lead time), minus backorders.  The inventory position should always equal the base
+% stock level R.
+%
+% Base Stock _cost_ assumptions:
+%
+% * Each unit ordered incurs a fixed production cost (cost/unit)
+% * Each unit in inventory incurs a time-dependent holding cost (cost/unit-time)
+% * Each demand backordered incurs a time-dependent backorder cost (cost/unit-time)
+% * There is NOT any fixed cost associated with a replenishment order, nor any constraint on the
+% number of replenishment orders that can be placed in any time window.
+
+
+%% Base Stock:  Costs, Backorder Level, and Fill Rate as Base Stock Level R Changes
+% The purpose of the following demo is to reproduce figure 2.2 in Hopp & Spearman (ed. 2), except
+% for the Base Stock inventory model instead of the EOQ model.  The demo invokes the simulation
+% model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of
+% base stock levels R.  The output is a visualization of average costs incurred for each value of R
+% - total cost, inventory holding cost, backorder cost, and production cost.  Additional
+% visualizations include fill rate (the fraction of demand filled without backorder and delay)
+% as a function of R, statistics about the distribution of backorder level as a function of R, and
+% an alternative visualization plotting costs against fill rate for each value of R, given that fill
+% rate targets are often analysis _inputs_ rather than _outputs_.
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, replenishment lead times' distribution, mean, and variability, the product's
+% production cost, inventory holding cost, and backorder cost, and a range of base stock levels R.
+%
+% UPDATE:  The _PARALLEL_ version of this demo supercedes the _SERIAL_ version.  It should produce
+% exactly the same results, just much faster.  It introduces parallelization by replacing several 
+% nested FOR loops with a single PARFOR loop, which by default will start and use as many background
+% MATLAB sessions as your processor has cores.
+
+%DEMO_BaseStock_SweepR_VisualizeCostsAndFillRate_SERIAL
+DEMO_BaseStock_SweepR_VisualizeCostsAndFillRate_PARALLEL
+
+
+%% Base Stock:  Backorder Distribution
+% The following demo fixes R and all other parameters, collects many samples of the backorder
+% level across multiple replications, and returns visualizations of the backorder level's empirical
+% distribution (its PDF and CDF).
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, replenishment lead times' distribution, mean, and variability, the product's
+% production cost, inventory holding cost, and backorder cost, and base stock level R.
+DEMO_BaseStock_FixR_VisualizeBackorderPDFandCDF
+
+
+%% Base Stock:  Fill Rate at R* as Backorder Cost Changes
+% The following demo was created to answer the question _How high must the backorder cost be to
+% realize a certain value of fill rate at R*?_  While it answers the question, it's unclear how much
+% the answer depends on specific parameter values, so be careful drawing any general inferences.
+% The demo invokes the simulation model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its
+% wrapper function) over a range of backorder costs B.  For each value the analytical R* is
+% computed, and the output is a visualization of fill rate at R* for each value of backorder cost.
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, replenishment lead times' distribution, mean, and variability, the product's
+% production cost, inventory holding cost, and a range of backorder costs (as multiples of the
+% inventory holding cost).
+DEMO_BaseStock_SweepBackorderCostB_VisualizeFillRate
+
+
+%% Base Stock:  Costs, Backorder Level, and Fill Rate as Demand Interarrival Time Variability Changes
+% The following demo sweeps over demand interarrival time variability, as measured by SCV (squared
+% coefficient of variability, the variance divided by the mean^2).  The demo invokes the simulation
+% model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of
+% demand interarrival time SCVs.  One output is a visualization of average costs incurred (total, inventory
+% holding, backorder, and production) as demand interarrival time SCV increases.  A second output is
+% a visualization of fill rate as demand interarrival time SCV increases.
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and a range of SCVs, replenishment lead times' distribution, mean, and variability, the product's
+% production cost, inventory holding cost, and backorder cost, and base stock level R.
+%
+% UPDATE:  v1 of the demo uses a fixed value for R, and v2 of the demo uses the analytical R* for the 
+% given parameters (which is a function of the demand distribution during replenishment lead time, and so _changes
+% with the demand interarrival time SCV_).  Depending on the parameters chosen, you may actually see
+% R* _decrease_ as demand interarrival time SCV increases, a counterintuitive possibility that Hopp & 
+% Spearman consider in a footnote on page 87 (ed. 2).
+
+DEMO_BaseStock_SweepDemandSCV_VisualizeCostsAndFillRate_v1
+DEMO_BaseStock_SweepDemandSCV_VisualizeCostsAndFillRate_v2
+
+
+%% Base Stock:  Costs, Backorder Level, and Fill Rate as Replenishment Lead Time _Mean_ Changes
+% The following demo sweeps over replenishment lead time mean.  The demo invokes the simulation
+% model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of
+% replenishment lead time means.  One output is a visualization of average costs incurred (total,
+% inventory holding, backorder, and production) as replenishment lead time mean increases.  A second
+% output is a visualization to look for patterns in fill rate as replenishment lead time mean 
+% increases.  An expected result is that as L increases then R* and also inventory holding costs
+% will increase.
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, replenishment lead times' distribution, a range of means, and variability, the
+% product's production cost, inventory holding cost, and backorder cost, and base stock level R.
+DEMO_BaseStock_SweepLeadTimeL_VisualizeCostsAndFillRate
+
+
+%% Base Stock:  Costs, Backorder Level, and Fill Rate as Replenishment Lead Time _Variability_ Changes
+% The following demo sweeps over replenishment lead time variability, as measured by SCV (squared
+% coefficient of variability, the variance divided by the mean^2).  The demo invokes the simulation
+% model 'ProdSystem_BaseStockAssumptionsAndCosts' (through its wrapper function) over a range of
+% replenishment lead time SCVs.  One output is a visualization of average costs incurred (total,
+% inventory, holding, backorder, and production) as demand interarrival time SCV increases.  A
+% second output is a visualization to look for patterns in fill rate as replenishment lead time SCV
+% increases.
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and a range of SCVs, replenishment lead times' distribution, mean, and a range of SCVs, the
+% product's production cost, inventory holding cost, and backorder cost, and base stock level R.
+DEMO_BaseStock_SweepLeadTimeSCV_VisualizeCostsAndFillRate
+
+
+
+
+
+%% Qr Assumptions
+% Qr _system_ assumptions:
+%
+% * Products are separable with no shared interactions.  This enables single-product analysis.
+% * Demands occur one at a time, and there are no batch demands.  This assumption is built into the
+% simulation model because (to the best of my knowledge) a Time-Based Entity Generator does not
+% support batch generation of entities.  If desired, demand inter-arrival times can be made
+% deterministic by choosing the normal distribution with stdev=eps, which is as close to zero as
+% possible.
+% * Demand which is not filled immediately is backordered, and there are no lost sales.
+% * *Inventory Position* is defined as on-hand inventory, plus open orders (not yet filled due to
+% replenishment lead time), minus backorders.  The inventory position in the QR model should
+% oscillate between R and Q+R.
+% * A replenishment order for a lot of size Q is placed immediately whenever the inventory position
+% decreases to R.  Because replenishment orders are placed immediately, the inventory position
+% should never spend time at level R, but upon decreasing to R then jump immediately to Q+R.
+% * Production and delivery of replenishment orders are NOT instantaneous, but rather require a
+% fixed and known replenishment lead time.  The "fixed and known" assumption is relaxed in the
+% simulation model - replenishment lead times can be random, or made deterministic by choosing the
+% normal distribution with stdev=eps, which is as close to zero as possible.
+%
+% Qr _cost_ assumptions:
+%
+% * Each unit ordered incurs a fixed production cost (cost/unit)
+% * Each lot of Q units ordered incurs a fixed setup cost (cost/lot).  An alternative described in
+% Hopp & Spearman is to constrain the maximum number of replenishment orders per time window, but
+% this alternative is not implemented in the simulation model 'ProdSystem_QrAssumptionsAndCosts'.
+% * Each unit in inventory incurs a time-dependent holding cost (cost/unit-time)
+% * Each demand backordered incurs a time-dependent backorder cost (cost/unit-time)
+
+
+%% Qr:  Total Costs and Fill Rate as Lot Size Q and Reorder Point R Change
+% The purpose of the following demo is to reproduce figure 2.2 in Hopp & Spearman (pg. 51 in ed. 2),
+% except for the Qr inventory model instead of the EOQ model.  However, that task is inherently difficult 
+% because while the expected cost curves for EOQ or Base Stock have only one independent variable (lot
+% size Q for EOQ, base stock level R for Base Stock), the Qr model has two, both Q and R. Therefore,
+% the output will be 3-D surfaces rather than 2-D curves.  The demo invokes the simulation model 
+% 'ProdSystem_QrAssumptionsAndCosts' (through its wrapper function) over a range of lot sizes Q and
+% reorder points R.  The output is visualizations of average costs incurred for each value of (Q, R)
+% - total costs, lot setup costs, inventory holding costs, backorder costs, and production costs.
+% An additional visualization shows fill rate (the fraction of demand filled without backorder and
+% delay) for each value of (Q, R).
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, replenishment lead times' distribution, mean, and variability, the product's
+% production cost, lot setup cost, inventory holding cost, and backorder cost, and a range of lot
+% sizes Q and reorder points R.
+%
+% UPDATE:  The _PARALLEL_ version of this demo supercedes the _SERIAL_ version.  It should produce
+% exactly the same results, just much faster.  It introduces parallelization by replacing several 
+% nested FOR loops with a single PARFOR loop, which by default will start and use as many background
+% MATLAB sessions as your processor has cores.
+
+%DEMO_Qr_SweepQandR_VisualizeCostAndFillRate_SERIAL
+DEMO_Qr_SweepQandR_VisualizeCostAndFillRate_PARALLEL
+
+
+%% Qr:  Backorder Distribution
+% The following demo fixes Q, R, and all other parameters, collects many samples of the backorder
+% level across multiple replications, and returns visualizations of the backorder level's empirical
+% distribution (its PDF and CDF).
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, replenishment lead times' distribution, mean, and variability, the product's
+% production cost, lot setup cost, inventory holding cost, and backorder cost, and the lot size Q
+% and reorder point R.
+DEMO_Qr_FixQandR_VisualizeBackorderPDFandCDF
+
+
+%% Qr:  Inventory Statistics at (Q*, R*) as Lot Setup Cost Changes
+% The purpose of the following demo is to observe the effect of increasing lot setup cost A relative
+% to a fixed inventory holding cost H.  The demo invokes the simulation model 'ProdSystem_QrAssumptionsAndCosts'
+% (through its wrapper function) over a range of lot setup costs A.  For each value the analytical
+% (Q*, R*) is computed, and the output is a visualization of average inventory statistics (number of 
+% replenishments per year, lot size Q*, and on-hand inventory level) as lot setup cost increases.
+% An expected result is that as A increases relative to H then Q* will increase, the number of 
+% replenishments will decrease, and on-hand inventory will increase.
+%
+% Parameters which can be changed by a user include demand interarrival times' distribution, mean,
+% and variability, replenishment lead times' distribution, mean, and variability, the product's
+% production cost, inventory holding cost, backorder cost, and a range of lot setup costs (as
+% multiples of the inventory holding cost).
+DEMO_Qr_SweepA_VisualizeInventoryStatsAtQStarRStar
+##### SOURCE END #####
+--></body></html>
