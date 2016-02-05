@@ -194,7 +194,7 @@
     padding: 0;
     z-index: 100;
     position: absolute;
-    opacity: 0;
+    opacity: 0;  /*Initially Invisible*/
 }
 .multiContentTile > ul > li {
     max-width: 310px;
@@ -208,13 +208,13 @@
     color: #111111;
 }
 .multiContentTile:hover > ul {
-    opacity: 1;
+    opacity: 1;  /*Hover makes it visible*/
 }
 .multiContentTile > ul > li:hover > a {
     color: #0011FF;
 }
 .multiContentTile:hover > img {
-    opacity: 0.33;
+    opacity: 0.33;  /*Hover fades the image*/
 }
 
 /* FOOTER */
