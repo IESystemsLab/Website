@@ -46,7 +46,7 @@
 }
     .mainheader > h4 {
         font-family: Georgia, Times, serif;
-        font-size: 26px;
+        font-size: 28px;
         font-weight: normal;
         color: #111111;
         padding-top: 30px;
@@ -56,6 +56,11 @@
 /* TOPICS */
 .topicCollection {
     margin: 36px 0 0 0;
+}
+.topicCollection:after {
+    content: "";
+    display:table;
+    clear: both;
 }
 /* TOPICS: BRIGHT */
 .topic {
@@ -70,7 +75,7 @@
 }
 .topic > a > h3 {
     font-family: Georgia, Times, serif;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: normal;
     margin: 0 0 15px 0;
 }
@@ -131,20 +136,25 @@
 
 /* CONTENT */
 .contentCollection {
-
+    padding-top: 10px;
 }
 .contentCollection > h3 {
+    background-color: #EFEFEF;
+    padding-bottom: 30px;
     text-align: center;
     font-family: Georgia, Times, serif;
     font-size: 22px;
     font-weight: normal;
+    line-height: 33px;
 }
 .contentTiles {
     float: left;
     text-align: center;
-    padding: 20px 0px 40px 40px;
+    padding: 0px 0px 30px 40px;
 }
 .contentTile {
+    max-width: 310px;
+    height: 300px;
     float: left;
     margin: 0px 30px 0px 30px;
 }
@@ -152,12 +162,12 @@
     color: #111111;
     text-decoration: none;
 }
-.contentTile > a > h3 {
+.contentTile > a > h3, .multiContentTile > h3 {
     font-family: Georgia, Times, serif;
     font-size: 24px;
     font-weight: normal;
 }
-.contentTile > a > h3 > span {
+.contentTile > a > h3 > span, .multiContentTile > h3 > span {
     font-family: "Lucida Grande", Tahoma, sans-serif;
     font-size: 30px;
     color: #CCCCCC;
@@ -178,10 +188,38 @@
     display:table;
     clear: both;
 }
+/* Multi-Content Tile*/
+.multiContentTile > ul {
+    list-style-type: none;
+    padding: 0;
+    z-index: 100;
+    position: absolute;
+    opacity: 0;  /*Initially Invisible*/
+}
+.multiContentTile > ul > li {
+    max-width: 310px;
+    padding-bottom: 20px;
+}
+.multiContentTile > ul > li > a {
+    text-decoration: none;
+    font-family: Georgia, Times, serif;
+    font-size: 19px;
+    font-weight: normal;
+    color: #111111;
+}
+.multiContentTile:hover > ul {
+    opacity: 1;  /*Hover makes it visible*/
+}
+.multiContentTile > ul > li:hover > a {
+    color: #0011FF;
+}
+.multiContentTile:hover > img {
+    opacity: 0.33;  /*Hover fades the image*/
+}
 
 /* FOOTER */
 .footer {
-    padding-top: 40px;
+    padding-top: 20px;
     text-align: center;
     font-family: "Lucida Grande", Verdana, sans-serif;
     font-size: 12px;
