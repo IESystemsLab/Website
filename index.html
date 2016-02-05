@@ -36,7 +36,7 @@
           engineering analysis, discrete-event simulation, statistics, optimization, factory physics">
     <!--DESCRIPTION:  http://en.wikipedia.org/wiki/Meta_element viewed 03feb2015 says "W3C doesn't specify the size of this
         description meta tag, but almost all search engines recommend it to be shorter than 155 characters of plain text." -->
-    <meta name="description" content="A Virtual Industrial Engineering Systems Laboratory, for Education">
+    <meta name="description" content="A Virtual Systems Laboratory for Industrial Engineering Education">
     <!--CSS-->
     <link type="text/css" rel="stylesheet" href="styling.css" media="screen">
     <!--JavaScript-->
@@ -60,21 +60,21 @@
             <div id="Topic_Software" class="topic">
                 <a href="#Software" onclick="javascript: ToggleDisplay('Topic_Software', 'Software', 'Topic_Courseware', 'Courseware', 'Topic_Reading', 'Reading', 'Topic_Partners', 'Partners');">
                     <h3>Software <span>&#65515;</span></h3>
-                    <p>Software components for experimenting with virtual industrial engineering systems.</p>
+                    <p>Overview of software components for experimenting with virtual industrial engineering systems.</p>
                 </a>
             </div>
 
             <div id="Topic_Courseware" class="topic">
                 <a href="#Courseware" onclick="javascript: ToggleDisplay('Topic_Courseware', 'Courseware', 'Topic_Software', 'Software', 'Topic_Reading', 'Reading', 'Topic_Partners', 'Partners');">
                     <h3>Courseware <span>&#65515;</span></h3>
-                    <p>University courseware which uses the virtual lab components.</p>
+                    <p>Overview of university courseware using the virtual lab components.</p>
                 </a>
             </div>
 
             <div id="Topic_Reading" class="topic">
                 <a href="#Reading" onclick="javascript: ToggleDisplay('Topic_Reading', 'Reading', 'Topic_Software', 'Software', 'Topic_Courseware', 'Courseware', 'Topic_Partners', 'Partners');">
-                    <h3>Reading <span>&#65515;</span></h3>
-                    <p>Papers to explain motivation, purpose, and perspective.</p>
+                    <h3>Resources <span>&#65515;</span></h3>
+                    <p>Papers to explain motivation, purpose, and perspective, plus other resources.</p>
                 </a>
             </div>
 
@@ -90,6 +90,13 @@
         <!-------------->
         <div id="Software" class="contentCollection" style="display:none;">
             
+            <h3>
+                <br />
+                All software is freely available at GitHub, in <a href="https://github.com/IESystemsLab/Software">this repository</a> with <a href="https://github.com/IESystemsLab/Software/archive/master.zip">this download link</a>.
+                <br />
+                Each tile below links to an overview, a description of a subset of components.
+            </h3>
+
             <div class="contentTiles">
                 <!-- Inventory Models -->
                 <div class="contentTile">
@@ -105,26 +112,22 @@
                     <a href="Overview_SingleWorkstationModels.html">
                         <h3>Single Workstation Models <span>&#65515;</span></h3>
                         <img src="images/Icon_SingleWorkstationModels.png" width="300" height="210" alt="(Missing: Single Workstation Models Image)">
-                        <!--Icon Source: http://industry-illustration.com/highresolution/l_032.png, accessed 13jan2016.  At the time of access, we are in compliance with all terms of use stated at http://industry-illustration.com/en/agreements.html-->
+                        <!--Icon Source: http://industry-illustration.com/highresolution/l_032.png, accessed 13jan2016 and cropped from the original.  At the time of access, we are in compliance with all terms of use stated at http://industry-illustration.com/en/agreements.html-->
                     </a>
                 </div>
 
                 <!-- Production Line Models -->
                 <div class="contentTile">
-                    <a href="Overview_ProductionLineModels.html">
+                    <div class="multiContentTile">
                         <h3>Production Line Models <span>&#65515;</span></h3>
-                        <img src="images/Icon_ProductionLineModels.jpg" width="300" height="210" alt="(Missing: Production Line Models Image)">
-                        <!--Icon Source: https://commons.wikimedia.org/wiki/File:NIST_Manufacturing_Systems_Integration_Program.jpg, accessed 20jan2016.  At the time of access, the source is "NIST Programs of the Manufacturing Engineering Laboratory" and the work is in the public domain.-->
-                    </a>
-                </div>
-
-                <!-- Dispatch: Push versus Pull -->
-                <div class="contentTile">
-                    <a href="Overview_PushVsPull.html">
-                        <h3>Dispatch: Push versus Pull <span>&#65515;</span></h3>
-                        <img src="images/Icon_Dispatch.png" width="300" height="210" alt="(Missing: Dispatch Image)">
-                        <!--Icon Source: http://industry-illustration.com/highresolution/l_107.png, accessed 13jan2016.  At the time of access, we are in compliance with all terms of use stated at http://industry-illustration.com/en/agreements.html-->
-                    </a>
+                        <ul>
+                            <li><a href="Overview_ProductionLineModels_PennyFab.html">Introduction: Best, Worst, and Practical Worst Case Performance <span>&#65515;</span></a></li>
+                            <li><a href="Overview_ProductionLineModels_PushVsPull.html">Work Release: Push versus Pull Control Paradigms <span>&#65515;</span></a></li>
+                            <li><a href="Overview_ProductionLineModels_PushVsPullWithCRN.html">Work Release: Use Common Random Numbers to compare Push versus Pull Replications <span>&#65515;</span></a></li>
+                        </ul>
+                        <img src="images/Icon_ProductionLineModels.png" width="300" height="210" alt="(Missing: Production Line Models Image)">
+                        <!--Icon Source: My own work, created with the Microsoft Visio 2013 "Department-3D" shape library, 04feb2016.-->
+                    </div>
                 </div>
 
                 <!-- Aggregate Planning -->
@@ -145,13 +148,17 @@
                     </a>
                 </div>
             </div>
-
-            <h3>All software is freely available at GitHub, in <a href="https://github.com/IESystemsLab/Software">this repository</a> with <a href="https://github.com/IESystemsLab/Software/archive/master.zip">this download link</a>.</h3>
         </div>
 
         <!-------------->
         <div id="Courseware" class="contentCollection" style="display:none;">
-            <h3>All courseware is freely available at GitHub, in <a href="https://github.com/IESystemsLab/Courseware">this repository</a> with <a href="https://github.com/IESystemsLab/Courseware/archive/master.zip">this download link</a>.</h3>
+
+            <h3>
+                <br />
+                All courseware is freely available at GitHub, in <a href="https://github.com/IESystemsLab/Courseware">this repository</a> with <a href="https://github.com/IESystemsLab/Courseware/archive/master.zip">this download link</a>.
+                <br />
+                Each tile below links to an overview, a description of a subset of components.
+            </h3>
         </div>
 
         <!-------------->
@@ -167,8 +174,6 @@
 
         <!-------------->
         <div class="footer">
-            </br>
-            </br>
             ----------
             </br>
             </br>
