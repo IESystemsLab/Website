@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html
   PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
@@ -13,9 +13,9 @@ html { min-height:100%; margin-bottom:1px; }
 html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
 html body td { vertical-align:top; text-align:left; }
 
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:2em; color:#d55000; line-height:100%; font-weight:normal; }  /*font-size:1.5, 1.2, 1.1em*/
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.25em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.25em; color:#000; font-weight:bold; line-height:140%; }
 
 a { color:#005fce; text-decoration:none; }
 a:hover { color:#005fce; text-decoration:underline; }
@@ -36,9 +36,9 @@ ol li ol li { list-style-type:lower-alpha; }
 ol li ul { padding-top:7px; }
 ol li ul li { list-style:square; }
 
-.content { font-size:1.2em; line-height:140%; padding: 20px; }
+.content { font-size:1.4em; line-height:140%; padding: 20px; }  /*font-size:1.2em*/
 
-pre, code { font-size:12px; }
+pre, code { font-size:14px; } /*font-size:12px*/
 tt { font-size: 1.2em; }
 pre { margin:0px 0px 20px; }
 pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
@@ -439,7 +439,7 @@ varServiceLevel =
 
      0
 
-</pre><p>Obviously in this case, we added too much buffer to the aggregate planning process and while the service level is 100%, the total profit is signficantly lower. The process of selecting the optimal amount of buffer is an optimization process itself and left as an exercise or future work</p><h2>Conclusions and Future Work<a name="12"></a></h2><p>While the aggregate planning process optimizes the resource levels to maximize profit, the resulting solution is not robust in a stochastic system. The lesson here is that this is actually true of most deterministic optimization models. In practice, rules of thumb such as inflated demand or deflated productivity estimates are applied to correct for this lack of robustness and arrive at an implementable recommendation. Future work in this section includes:</p><div><ul><li>Extending the workforce planning model to incorporate complete Agregate and Production Planning</li><li>Incorporating multi-resource models (multiple resources and inventory)</li><li>Proposing a stochastic optimization approach to replace the inflation factors</li></ul></div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><p>Obviously in this case, we added too much buffer to the aggregate planning process and while the service level is 100%, the total profit is signficantly lower. The process of selecting the optimal amount of buffer is an optimization process itself and left as an exercise or future work</p><h2>Conclusions and Future Work<a name="12"></a></h2><p>While the aggregate planning process optimizes the resource levels to maximize profit, the resulting solution is not robust in a stochastic system. The lesson here is that this is actually true of most deterministic optimization models. In practice, rules of thumb such as inflated demand or deflated productivity estimates are applied to correct for this lack of robustness and arrive at an implementable recommendation. Future work in this section includes:</p><div><ul><li>Extending the workforce planning model to incorporate complete Agregate and Production Planning</li><li>Incorporating multi-resource models (multiple resources and inventory)</li><li>Proposing a stochastic optimization approach to replace the inflation factors</li></ul></div><p class="footer"><br>Copyright (c) 2015, Georgia Institute of Technology. All rights reserved.<br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Aggregate Planning
 % Aggregate planning the long-range planning function that determines the
